@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Base{% end %}</title>
+
+<meta name="description" content="{% block description %}{% end %}">
+<meta name="keywords" content="{% block keywords %}{% end %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/bootstrap-responsive.min.css') }}">
+
+{% block head_css_mid %}{% end %}
+
+<link rel="stylesheet" href="{{ static_url('css/framework.min.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/framework-responsive.min.css') }}">
+
+<link rel="stylesheet" href="{{ static_url('css/customize.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/customize-responsive.css') }}">
+
+{% block head_css %}{% end %}
+{% block head_js %}{% end %}
+
+<!--[if lt IE 9]><script src="{{ static_url('js/html5shiv.min.js') }}"></script><![endif]-->
+</head>
+
+<body data-exts-scrollup="1" data-spy="scroll">
+<header class="header topfix">
+    <nav class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="container">
+                <a class="brand" href="/">{% raw handler.get_runtime_conf('brand') %}</a>
+                {% if handler.current_user %}
+                <ul class="nav nav-tool-bar pull-right">
+                    <li><a href="/@{{url_escape(handler.current_user['user_name'])}}"><i class="icon-user"></i><span class="panel-user-name"> {{ handler.current_user['user_name'] }}</span></a></li>
+                    <li><a href="/shell"><i class="icon-cog"></i></a></li>
+                    <li><a href="/leave"><i class="icon-off"></i></a></li>
+                </ul>
+                {% end %}
+
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        {% block navs %}{% end %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="vessel">
+    <div class="container">
+        {% block tips %}{% module Template("_tips.html", tips = handler.jsons(handler.get_runtime_conf('notes'))) %}{% end %}
+        {% block main %}{% end %}
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        {% if handler.get_runtime_conf('qrimg') %}<img class="qrcode pull-right" src="{{ handler.get_runtime_conf('qrimg') }}">{% end %}
+        {% block power %}<p>{% raw handler.get_runtime_conf('power') %}</p>{% end %}
+        {% block built %}<p>{% raw handler.get_runtime_conf('built') %}</p>{% end %}
+        {% block links %}
+        {% if handler.get_runtime_conf('links') %}
+        <ul class="footer-links">
+            {% for link in handler.jsons(handler.get_runtime_conf('links')) %}
+            {% if 'text' in link and link['text'] and 'href' in link and link['href'] %}
+            <li><a href="{{ link['href'] }}" target="_blank">{{ link['text'] }}</a></li>
+            {% end %}
+            {% end %}
+        </ul>
+        {% end %}
+        {% end %}
+    </div>
+</footer>
+
+<script src="{{ static_url('js/jquery-1.10.1.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.form.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.scrollUp.min.js') }}"></script>
+<script src="{{ static_url('js/bootstrap.min.js') }}"></script>
+
+<script src="{{ static_url('js/customize.js') }}"></script>
+{% block foot_js %}{% end %}
+
+{% block stats %}{% raw handler.get_runtime_conf('stats') %}{% end %}
+</body>
+</html>

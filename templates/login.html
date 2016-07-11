@@ -1,0 +1,73 @@
+{% extends "_base.html" %}
+
+{% block title %}登录 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block main %}
+<div class="card-wrap span3" style="float:none">
+    <div class="card-main">
+        <div class="card-logo">
+            <img class="avatar" src="{{ static_url('img/l.jpg') }}">
+        </div>
+        <div class="card-form">
+            <form id="form-auth" action="/login" method="post">
+                {% raw xsrf_form_html() %}
+                {% if next %}
+                <input type="hidden" name="redirect" value="{{ next }}">
+                {% end %}
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="input-block-level" style="min-height: 34px;" type="text" name="username" autocomplete="off" placeholder="账号" maxlength="64" required>
+                        <input class="input-block-level" style="min-height: 34px;" type="password" name="password" autocomplete="off" placeholder="密码" required>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="captcha"></div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-success input-block-level">登录</button>
+                    </div>
+                </div>
+
+                <a rel="nofollow" href="/apply?form=login" target="_blank" class="pull-right">没有帐号？</a>
+                <label class="checkbox"><input type="checkbox" name="remember" value="30">保持登录状态</label>
+            </form>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block foot_js %}
+<script>
+    $(function(){
+        $('#form-auth').submit(function() {
+            L.method.request({
+                element: $(this),
+                prepare: function(opts) {
+                    if (!opts.element.data('captcha-loaded')) {
+                        opts.element.data('captcha-loaded', true);
+                        L.widget.captcha.create(opts.element.find('.captcha'));
+
+                        return false;
+                    }
+
+                    opts.element.find('button[type=submit]').prop('disabled', true);
+                },
+                respond: function(opts, resp) {
+                    if (resp.err) {
+                        alert('登录失败！' + resp.msg);
+                        L.widget.captcha.reload(opts.element.find('.captcha'));
+                        opts.element.find('button[type=submit]').prop('disabled', false);
+                    } else {
+                        location.href = resp.url || '/';
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+{% end %}
