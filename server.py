@@ -41,7 +41,7 @@ class Application(tornado.web.Application):
             srv='AL/1.0.%s' % int(time.time()),
             login_url='/login',
             xsrf_cookies=True,
-            cookie_secret='',
+            cookie_secret='xc',
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "statics"),
         )
