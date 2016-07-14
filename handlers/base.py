@@ -10,6 +10,7 @@ import tornado.escape
 
 
 from models.users import Users
+from models.files import Files
 from utils.util import Utils
 from utils.cache import Cache
 from utils.tools import Tools
@@ -30,6 +31,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, application, request, **kwargs):
         super(BaseHandler, self).__init__(application, request, **kwargs)
         self.users_ins = Users()
+        self.files_ins = Files()
 
     # 重写get_current_user, 主要实现当前登陆用户获取
     def get_current_user(self):
@@ -104,6 +106,10 @@ class BaseHandler(tornado.web.RequestHandler):
         self.set_cookie('_usid', str(user['user_id']), expires_days=days)
         self.set_secure_cookie('_auid', str(user['user_auid']), expires_days=days, httponly=True)
         self.set_secure_cookie('_auth', Tools.generate_authword(user['user_atms'], user['user_salt']))
+
+    def del_current_sess(self):
+        self.clear_cookie("_auid")
+        self.clear_cookie("_auth")
 
 
 def login(method):

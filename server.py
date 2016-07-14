@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 import time
 import os.path
 import logging.handlers
@@ -42,6 +43,7 @@ class Application(tornado.web.Application):
             login_url='/login',
             xsrf_cookies=True,
             cookie_secret='xc',
+            root_path=os.path.join(sys.path[0], 'statics/img'),
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "statics"),
         )

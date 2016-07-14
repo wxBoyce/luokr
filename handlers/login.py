@@ -31,7 +31,7 @@ class LoginHandler(BaseHandler):
             if user and self.entry('login:user#' + str(user['user_id'])):
                 self.flash(0, {'msg': '操作太频繁，请稍后再试', 'sta': 429})
                 return
-            print Tools.generate_password(password, user['user_salt'])
+
             if user and Tools.generate_password(password, user['user_salt']) == user['user_pswd']:
                 self.set_current_sess(user, days=remember)
 

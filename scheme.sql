@@ -28,3 +28,16 @@ CREATE TABLE `users`(
 
 INSERT INTO users(user_id, user_name, user_salt, user_pswd, user_perm, user_mail, user_meta, user_ctms, user_utms, user_atms)
 values(1, 'admin', 'asdflkjh', 'b6ce17f5578131e2997ccfb99dcc3500', 2147483647, '', '', 1374486661, 1374786660, 1374765138);
+
+
+--Table: files
+DROP TABLE IF EXISTS `files`;
+CREATE TABLE `files`(
+    `file_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `file_hash` CHAR(32),
+	  `file_base` VARCHAR(128),
+    `file_path` VARCHAR(512),
+    `file_type` VARCHAR(128),
+    `file_memo` VARCHAR(512),
+    `file_ctms` INT(10) NOT NULL
+)DEFAULT CHARSET = UTF8;
