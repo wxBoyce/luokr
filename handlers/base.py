@@ -7,10 +7,12 @@ import functools
 
 import tornado.web
 import tornado.escape
+import tornado.httputil
 
 
 from models.users import Users
 from models.files import Files
+from models.posts import Posts
 from utils.util import Utils
 from utils.cache import Cache
 from utils.tools import Tools
@@ -32,6 +34,7 @@ class BaseHandler(tornado.web.RequestHandler):
         super(BaseHandler, self).__init__(application, request, **kwargs)
         self.users_ins = Users()
         self.files_ins = Files()
+        self.posts_ins = Posts()
 
     # 重写get_current_user, 主要实现当前登陆用户获取
     def get_current_user(self):
@@ -110,6 +113,26 @@ class BaseHandler(tornado.web.RequestHandler):
     def del_current_sess(self):
         self.clear_cookie("_auid")
         self.clear_cookie("_auth")
+
+    def utils(self):
+        return Utils
+
+    def tourl(self, args, base=None):
+        if base is None:
+            base = self.request.path
+        return tornado.httputil.url_concat(base, args)
+
+    def merge_query(self, args, dels=None):
+        if dels is None:
+            dels = []
+
+        for k in self.request.arguments.keys():
+            if k not in args and k[0] != '_':
+                args[k] = self.get_argument(k)
+        for k in dels:
+            if k in args:
+                del args[k]
+        return args
 
 
 def login(method):

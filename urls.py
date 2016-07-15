@@ -9,6 +9,7 @@ from handlers.leave import LeaveHandler
 from handlers.check import CheckHandler
 
 from handlers.shell.panel import ShellPanelHandler
+from handlers.shell.index import Shell_IndexHandler
 
 
 urls = {
@@ -19,4 +20,5 @@ urls = {
     (r'/leave', LeaveHandler),
 
     (r'/shell', ShellPanelHandler),
+    (r'/@([^/]+)', Shell_IndexHandler),
 }

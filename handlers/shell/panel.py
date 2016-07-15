@@ -79,6 +79,7 @@ class ShellPanelHandler(ShellHandler):
                 url = '/upload/' + time.strftime('%Y/%m/%d/') + key[0] + key[1] + key[30] + key[
                     31] + '/' + key + ext
                 uri = self.settings['root_path'] + dir + url
+                url = '/static/img/www' + url
 
                 if not os.path.exists(os.path.dirname(uri)):
                     os.makedirs(os.path.dirname(uri), mode=0777)
