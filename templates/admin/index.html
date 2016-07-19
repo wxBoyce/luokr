@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+
+{% block title %}控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = '') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+        </ul>
+
+        <div class="row dashboard">
+            <div class="span6">
+                <div class="well">
+                    <h5 class="muted">最近评论</h5>
+                    <hr>
+                    {% if talks %}
+                    {% for talk in talks %}
+                    <p class="texted"><span class="muted">{{ handler.timer().strftime('%Y-%m-%d %H:%M:%S', handler.timer().localtime(talk['talk_ctms'])) }}</span> {% if talk['talk_rank'] %}<span class="text-success">已显示</span>{% else %}<span class="text-info">未显示</span>{% end %} {{ talk['talk_text'] }}</p>
+                    {% end %}
+                    {% else %}
+                    <p>没有发现内容</p>
+                    {% end %}
+                    <hr>
+                    <p><a class="btn btn-success" href="/admin/talks">查看评论 »</a></p>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="well">
+                    <h5 class="muted">最近留言</h5>
+                    <hr>
+                    {% if mails %}
+                    {% for mail in mails %}
+                    <p class="texted"><span class="muted">{{ handler.timer().strftime('%Y-%m-%d %H:%M:%S', handler.timer().localtime(mail['mail_ctms'])) }}</span> {% if mail['mail_stat'] %}<span class="text-success">已处理</span>{% else %}<span class="text-info">未处理</span>{% end %} {{ mail['mail_text'] }}</p>
+                    {% end %}
+                    {% else %}
+                    <p>没有发现内容</p>
+                    {% end %}
+                    <hr>
+                    <p><a class="btn btn-success" href="/admin/mails">查看留言 »</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}

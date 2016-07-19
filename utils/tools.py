@@ -47,3 +47,7 @@ class Tools(object):
             salt = salt + random.choice(strs)
             size = size - 1
         return salt
+
+    @staticmethod
+    def chk_user_is_root(user):
+        return Tools.chk_user_if_perm(user, 0x7FFFFFFF)

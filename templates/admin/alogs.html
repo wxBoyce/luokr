@@ -1,0 +1,55 @@
+{% extends "_base.html" %}
+
+{% block title %}系统日志 - 系统管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'admin') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">系统日志</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 80px">#</th>
+                    <th style="width: 140px">操作时间</th>
+                    <th>日志内容</th>
+                    <th style="width: 80px">用户名</th>
+                    <th style="width: 80px">用户ID</th>
+                    <th style="width: 140px">用户IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if alogs %}
+                {% for alog in alogs %}
+                <tr>
+                    <td>{{ alog['alog_id'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M:%S', handler.timer().localtime(alog['alog_ctms'])) }}</td>
+                    <td>{{ alog['alog_text']}}{% if alog['alog_data'] != '' %}<br><textarea class="input-block-level" readonly>{{ alog['alog_data'] }}</textarea>{% end %}</td>
+                    <td>{{ alog['user_name'] }}</td>
+                    <td>{{ alog['user_id'] }}</td>
+                    <td>{{ alog['user_ip'] }}</td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}

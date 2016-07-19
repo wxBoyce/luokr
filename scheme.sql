@@ -113,3 +113,68 @@ CREATE INDEX idx_postPtms_postStat_postRefc ON posts (
     `post_stat`,
     `post_refc`
 );
+
+--Table: talks
+CREATE TABLE talks(
+     `talk_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     `post_id` INT,
+     `user_id` INT NOT NULL,
+     `user_ip` VARCHAR(39),
+     `talk_ptid` INT NOT NULL DEFAULT 0,
+     `user_name` VARCHAR(64),
+     `user_mail` VARCHAR(64),
+     `talk_text` TEXT,
+     `talk_rank` INT(10) NOT NULL DEFAULT 100,
+     `talk_plus` INT(10) NOT NULL DEFAULT 0,
+     `talk_mins` INT(10) NOT NULL DEFAULT 0,
+     `talk_ctms` INT(10) NOT NULL,
+     `talk_utms` INT(10) NOT NULL
+)DEFAULT CHARSET = UTF8;
+
+-- Index: idx_talkRank_talkId
+CREATE INDEX idx_talkRank_talkId ON talks (
+    `talk_rank`,
+    `talk_id`
+);
+
+-- Index: idx_postId_talkRank_talkId
+CREATE INDEX idx_postId_talkRank_talkId ON talks (
+    `post_id`,
+    `talk_rank`,
+    `talk_id`
+);
+
+
+--Table: mails
+CREATE TABLE mails(
+     `mail_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     `user_ip` VARCHAR(39),
+
+     `user_name` VARCHAR(64),
+     `user_mail` VARCHAR(64) NOT NULL,
+     `mail_text` TEXT,
+
+     `mail_stat` INT(1) DEFAULT 0,
+     `mail_ctms` INT(10) NOT NULL,
+     `mail_utms` INT(10) NOT NULL
+)DEFAULT CHARSET = UTF8;
+
+-- Index: idx_mailStat_mailId
+CREATE INDEX idx_mailStat_mailId ON mails (
+    `mail_stat`,
+    `mail_id`
+);
+
+
+-- Table: alogs
+CREATE TABLE alogs(
+     `alog_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     `user_id` INT DEFAULT 0,
+
+     `user_ip` VARCHAR(39),
+     `user_name` VARCHAR(64),
+     `alog_text` TEXT,
+
+     `alog_data` TEXT,
+     `alog_ctms` INT(10) NOT NULL
+)DEFAULT CHARSET = UTF8;

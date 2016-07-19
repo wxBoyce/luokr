@@ -1,0 +1,65 @@
+<!-- admin -->
+<li class="dropdown{% if menu == 'admin' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">系统管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/alogs">系统日志</a></li>
+    <li><a href="/admin/cache">系统缓存</a></li>
+</ul>
+</li>
+
+<!-- confs -->
+<li class="dropdown{% if menu == 'confs' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">配置管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/confs">配置列表</a></li>
+    <li><a href="/admin/conf/create">新增配置</a></li>
+</ul>
+</li>
+
+<!-- users -->
+<li class="dropdown{% if menu == 'users' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">用户管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/users">用户列表</a></li>
+    <li><a href="/admin/user/create">新增用户</a></li>
+</ul>
+</li>
+
+<!-- files -->
+<li class="dropdown{% if menu == 'files' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">文件管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/files">文件列表</a></li>
+    <li><a href="/admin/file/upload">上传文件</a></li>
+</ul>
+</li>
+
+<!-- terms -->
+<li class="dropdown{% if menu == 'terms' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">标签管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/terms">标签列表</a></li>
+    <li><a href="/admin/term/create">新增标签</a></li>
+</ul>
+</li>
+
+<!-- links -->
+<li class="dropdown{% if menu == 'links' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">链接管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/links">链接列表</a></li>
+    <li><a href="/admin/link/create">新增链接</a></li>
+</ul>
+</li>
+
+<!-- posts -->
+<li class="dropdown{% if menu == 'posts' %} active{% end %}">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">文章管理 <b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a href="/admin/posts">文章列表</a></li>
+    <li><a href="/admin/post/create">新增文章</a></li>
+</ul>
+</li>
+
+<li{% if menu == 'talks' %} class="active"{% end %}><a href="/admin/talks">评论管理</a></li>
+<li{% if menu == 'mails' %} class="active"{% end %}><a href="/admin/mails">留言管理</a></li>

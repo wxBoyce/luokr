@@ -13,6 +13,9 @@ import tornado.httputil
 from models.users import Users
 from models.files import Files
 from models.posts import Posts
+
+from models.admin.admin import Admin
+
 from utils.util import Utils
 from utils.cache import Cache
 from utils.tools import Tools
@@ -35,6 +38,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.users_ins = Users()
         self.files_ins = Files()
         self.posts_ins = Posts()
+        self.admin_ins = Admin()
 
     # 重写get_current_user, 主要实现当前登陆用户获取
     def get_current_user(self):
@@ -133,6 +137,9 @@ class BaseHandler(tornado.web.RequestHandler):
             if k in args:
                 del args[k]
         return args
+
+    def timer(self):
+        return time
 
 
 def login(method):

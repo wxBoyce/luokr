@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ handler.get_runtime_conf('title') }}{% end %}</title>
+<meta name="description" content="{% block descp %}{{ handler.get_runtime_conf('descp') }}{% end %}">
+<meta name="keywords" content="{% block keyws %}{{ handler.get_runtime_conf('keyws') }}{% end %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/googstyle.min.css') }}">
+
+{% block head_css_mid %}{% end %}
+
+<link rel="stylesheet" href="{{ static_url('css/framework.min.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/customize.min.css') }}">
+
+{% block head_css %}{% end %}
+{% block head_js %}{% end %}
+
+<!--[if lt IE 9]><script src="{{ static_url('css/html5shiv.min.js') }}"></script><![endif]-->
+</head>
+
+<body data-exts-scrollup="1" data-spy="scroll">
+<header class="header">
+    <nav class="navbar navbar-static-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="/">{% raw handler.get_runtime_conf('brand') %}</a>
+                {% if handler.current_user %}
+                <ul class="nav nav-tool-bar pull-right">
+                    <li><a href="/@{{url_escape(handler.current_user['user_name'])}}"><i class="icon-user"></i><span class="panel-user-name"> {{ handler.current_user['user_name'] }}</span></a></li>
+                    <li><a href="/shell"><i class="icon-cog"></i></a></li>
+                    <li><a href="/leave"><i class="icon-off"></i></a></li>
+                </ul>
+                {% end %}
+
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        {% block navs %}{% end %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="vessel">
+    <div class="container">
+        {% block main %}{% end %}
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        {% block power %}<p>{% raw handler.get_runtime_conf('power') %}</p>{% end %}
+        {% block built %}<p>{% raw handler.get_runtime_conf('built') %}</p>{% end %}
+    </div>
+</footer>
+
+<script src="{{ static_url('js/jquery-1.10.1.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.form.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.scrollUp.min.js') }}"></script>
+<script src="{{ static_url('js/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('js/customize.min.js') }}"></script>
+{% block foot_js %}{% end %}
+</body>
+</html>
