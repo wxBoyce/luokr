@@ -15,6 +15,7 @@ from models.files import Files
 from models.posts import Posts
 
 from models.admin.admin import Admin
+from models.admin.confs import Confs
 
 from utils.util import Utils
 from utils.cache import Cache
@@ -39,6 +40,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.files_ins = Files()
         self.posts_ins = Posts()
         self.admin_ins = Admin()
+        self.confs_ins = Confs()
 
     # 重写get_current_user, 主要实现当前登陆用户获取
     def get_current_user(self):
@@ -52,8 +54,8 @@ class BaseHandler(tornado.web.RequestHandler):
 
     # 获取当前运行时段的配置
     def get_runtime_conf(self, name):
-        ret = ""
-        return ret
+        # return self.confs_ins.obtain_conf_by_name(name)
+        return ""
 
     def jsons(self, json):
         if json is None or json == '':
@@ -140,6 +142,16 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def timer(self):
         return time
+
+    def param_xsrfs(self):
+        return '_xsrf=' + tornado.escape.url_escape(self.xsrf_token)
+
+    def ualog(self, user, text, data=''):
+        if user:
+            self.admin_ins.insert_alogs(text, alog_data=data, user_ip=self.request.remote_ip, user_id=user['user_id'],
+                                        user_name=user['user_name'])
+        else:
+            self.admin_ins.insert_alogs(text, alog_data=data, user_ip=self.request.remote_ip)
 
 
 def login(method):

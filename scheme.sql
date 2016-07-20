@@ -178,3 +178,11 @@ CREATE TABLE alogs(
      `alog_data` TEXT,
      `alog_ctms` INT(10) NOT NULL
 )DEFAULT CHARSET = UTF8;
+
+
+--Table: confs
+CREATE TABLE confs(
+     `conf_name` VARCHAR(32) NOT NULL UNIQUE,
+     `conf_vals` TEXT,
+     `conf_ctms` INT(10)
+)DEFAULT CHARSET = UTF8;

@@ -14,6 +14,10 @@ from handlers.shell.index import Shell_IndexHandler
 from handlers.admin.index import AdminIndexHandler
 from handlers.admin.alogs import AdminAlogsHandler
 
+from handlers.admin.cache import AdminCacheHandler, AdminCacheDeleteHandler
+
+from handlers.admin.confs import AdminConfsHandler, AdminConfCreateHandler, AdminConfHandler, AdminConfDeleteHandler
+
 
 urls = {
     (r'/', TestHandler),
@@ -28,4 +32,12 @@ urls = {
     (r'/admin', AdminIndexHandler),
 
     (r'/admin/alogs', AdminAlogsHandler),
+
+    (r'/admin/cache', AdminCacheHandler),
+    (r'/admin/cache/delete', AdminCacheDeleteHandler),
+
+    (r'/admin/confs', AdminConfsHandler),
+    (r'/admin/conf', AdminConfHandler),
+    (r'/admin/conf/create', AdminConfCreateHandler),
+    (r'/admin/conf/delete', AdminConfDeleteHandler),
 }

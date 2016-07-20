@@ -1,0 +1,46 @@
+{% extends "_base.html" %}
+
+{% block title %}编辑配置 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'confs') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/confs">配置管理</a> <span class="divider">/</span></li>
+            <li class="active">编辑配置</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_conf_name">配置键</label>
+                <div class="controls">
+                    <input type="text" id="input_conf_name" name="conf_name" value="{{ entry['conf_name'] }}" disabled>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_conf_vals">配置值</label>
+                <div class="controls">
+                    <textarea id="input_conf_vals" name="conf_vals" rows="10" class="span6" style="height:auto">{{ entry['conf_vals'] }}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-danger">提交更新</button>
+                    <button type="reset" class="btn">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

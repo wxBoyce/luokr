@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+{% block title %}系统缓存 - 系统管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'admin') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">系统缓存</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post" action="/admin/cache/delete">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="inputExp">批量清理</label>
+                <div class="controls">
+                    <input class="input-xlarge" type="text" name="exp" id="inputExp" value="" placeholder="缓存键表达式" required>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-danger">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

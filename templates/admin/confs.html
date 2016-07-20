@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+
+{% block title %}配置管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'confs') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">配置管理</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 140px">配置键</th>
+                    <th>配置值</th>
+                    <th style="width: 160px">更新时间</th>
+                    <th style="width: 80px">可用操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if confs %}
+                {% for conf in confs %}
+                <tr>
+                    <td>{{ conf['conf_name'] }}</td>
+                    <td>{{ conf['conf_vals'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M:%S', handler.timer().localtime(conf['conf_ctms'])) }}</td>
+                    <td class="actor-block">
+                        <a href="/admin/conf?conf_name={{ url_escape(conf['conf_name']) }}">编辑</a>
+                        <a href="javascript:;" onclick="L.method.confirm() && L.method.operate('post', '/admin/conf/delete?conf_name={{ url_escape(conf['conf_name']) }}', '{{ handler.param_xsrfs() }}')">删除</a>
+                    </td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}
