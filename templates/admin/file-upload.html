@@ -1,0 +1,39 @@
+{% extends "_base.html" %}
+
+{% block title %}上传文件 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'files') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/files">文件管理</a> <span class="divider">/</span></li>
+            <li class="active">上传文件</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post" enctype="multipart/form-data">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_upload_0">上传文件</label>
+                <div class="controls">
+                    <input type="file" id="input_upload_0" name="upload" required>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success">提交表单</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

@@ -1,0 +1,86 @@
+{% extends "_base.html" %}
+
+{% block title %}更新用户 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'users') %}
+        </ul>
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/users">用户管理</a> <span class="divider">/</span></li>
+            <li class="active">更新用户</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_user_name">用户名称</label>
+                <div class="controls">
+                    <input type="text" id="input_user_name" name="user_name" value="{{ user['user_name'] }}" required readonly>
+                    <span class="help-inline">必需，唯一，作为登陆用户名</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_mail">联系邮箱</label>
+                <div class="controls">
+                    <input type="email" id="input_user_mail" name="user_mail" value="{{ user['user_mail'] }}" required>
+                    <span class="help-inline">必需</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_pswd">登陆密码</label>
+                <div class="controls">
+                    <input type="password" id="input_user_pswd" name="user_pswd">
+                    <span class="help-inline">填写则修改密码</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_rpwd">确认密码</label>
+                <div class="controls">
+                    <input type="password" id="input_user_rpwd" name="user_rpwd">
+                    <span class="help-inline">与登陆密码一致</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_perm">权限掩码</label>
+                <div class="controls">
+                    <input type="text" id="input_user_perm" name="user_perm" value="{{ user['user_perm'] }}" required>
+                    <span class="help-inline">必需，0 至 2147483647(0x7FFFFFFF)</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_sign">个人签名</label>
+                <div class="controls">
+                    <input type="text" id="input_user_sign" name="user_sign" value="{{ user['user_sign'] }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_logo">个性头像</label>
+                <div class="controls">
+                    <input type="text" id="input_user_logo" name="user_logo" value="{{ user['user_logo'] }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_meta">社会标签</label>
+                <div class="controls">
+                    <textarea id="input_user_meta" name="user_meta" rows="3" class="span5" style="height:auto">{{ user['user_meta'] }}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-danger">提交更新</button>
+                    <button type="reset" class="btn">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

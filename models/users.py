@@ -26,3 +26,12 @@ class Users(Base):
     def update_user_info_by_other(self, user_infos):
         self.g_mysql.execute("update users set user_mail='%s', user_logo='%s', user_sign='%s', user_meta='%s', "
                              "user_utms='%s' where user_id='%s'" % tuple(user_infos))
+
+    def get_user_info_list(self, limit, offset):
+        return self.g_mysql.query("select * from users order by user_id desc limit %s offset %s", limit, offset)
+
+    def insert_new_user(self, user_info):
+        self.g_mysql.execute("insert into users(user_auid, user_name, user_salt, user_pswd, user_perm, user_mail, "
+                             "user_sign, user_logo, user_meta, user_ctms, user_utms, user_atms) values('%s', '%s', '%s',"
+                             " '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % tuple(user_info))
+

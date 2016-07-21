@@ -51,3 +51,7 @@ class Tools(object):
     @staticmethod
     def chk_user_is_root(user):
         return Tools.chk_user_if_perm(user, 0x7FFFFFFF)
+
+    @staticmethod
+    def chk_is_user_name(name):
+        return 3 < len(name) < 32 and re.match(r'^[A-Za-z0-9](?:[-_]?[A-Za-z0-9]+)+$', name)

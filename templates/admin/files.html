@@ -1,0 +1,58 @@
+{% extends "_base.html" %}
+
+{% block title %}文件管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'files') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">文件管理</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 60px">#</th>
+                    <th>分区</th>
+                    <th>路径名</th>
+                    <th>文件类型</th>
+                    <th style="width: 140px">创建时间</th>
+                    <th style="width: 80px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if files %}
+                {% for file in files %}
+                <tr>
+                    <td>{{ file['file_id'] }}</td>
+                    <td>{{ file['file_base'] }}</td>
+                    <td>{{ file['file_path'] }}</td>
+                    <td>{{ file['file_type'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M', handler.timer().localtime(file['file_ctms'])) }}</td>
+                    <td class="actor-block">
+                        <a href="{{ file['file_path'] }}" target="_blank">查看</a>
+                        <a href="javascript:;" onclick="L.method.confirm() && L.method.operate('post', '/admin/file/delete?file_id={{ file['file_id'] }}&file_ctms={{ file['file_ctms'] }}', '{{ handler.param_xsrfs() }}')">删除</a>
+                    </td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}

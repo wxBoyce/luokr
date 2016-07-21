@@ -18,6 +18,10 @@ from handlers.admin.cache import AdminCacheHandler, AdminCacheDeleteHandler
 
 from handlers.admin.confs import AdminConfsHandler, AdminConfCreateHandler, AdminConfHandler, AdminConfDeleteHandler
 
+from handlers.admin.users import AdminUsersHandler, AdminUserHandler, AdminUserCreateHandler
+
+from handlers.admin.files import AdminFilesHandler, AdminFileHandler, AdminFileUploadHandler
+
 
 urls = {
     (r'/', TestHandler),
@@ -40,4 +44,12 @@ urls = {
     (r'/admin/conf', AdminConfHandler),
     (r'/admin/conf/create', AdminConfCreateHandler),
     (r'/admin/conf/delete', AdminConfDeleteHandler),
+
+    (r'/admin/users', AdminUsersHandler),
+    (r'/admin/user', AdminUserHandler),
+    (r'/admin/user/create', AdminUserCreateHandler),
+
+    (r'/admin/files', AdminFilesHandler),
+    (r'/admin/file', AdminFileHandler),
+    (r'/admin/file/upload', AdminFileUploadHandler),
 }
