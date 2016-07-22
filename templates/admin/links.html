@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+
+{% block title %}链接管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'links') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">链接管理</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 60px">#</th>
+                    <th>链接标题</th>
+                    <th style="width: 240px">链接地址</th>
+                    <th style="width: 80px">链接分值</th>
+                    <th style="width: 140px">更新时间</th>
+                    <th style="width: 120px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if links %}
+                {% for link in links %}
+                <tr>
+                    <td>{{ link['link_id'] }}</td>
+                    <td>{{ link['link_name'] }}</td>
+                    <td><a target="_blank" href="{{ link['link_href'] }}">{{ link['link_href'] }}</a></td>
+                    <td>{{ link['link_rank'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M', handler.timer().localtime(link['link_utms'])) }}</td>
+                    <td class="actor-block">
+                        <a href="/links" target="_blank">查看</a>
+                        <a href="/admin/link?link_id={{ link['link_id'] }}">编辑</a>
+                        <a href="javascript:;" onclick="L.method.confirm() && L.method.operate('post', '/admin/link/delete?link_id={{ link['link_id'] }}&link_utms={{ link['link_utms'] }}', '{{ handler.param_xsrfs() }}')">删除</a>
+                    </td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}

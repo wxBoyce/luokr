@@ -195,3 +195,21 @@ CREATE TABLE terms(
      `term_refc` INT(10),
      `term_ctms` INT(10)
 )DEFAULT CHARSET = UTF8;
+
+
+--Table: links
+CREATE TABLE links(
+    `link_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `link_name` VARCHAR(128),
+    `link_href` TEXT,
+    `link_desp` TEXT,
+    `link_rank` INT(10) DEFAULT 99,
+    `link_ctms` INT(10),
+    `link_utms` INT(10)
+)DEFAULT CHARSET = UTF8;
+
+--Index: idx_linkRank_linkId
+CREATE INDEX idx_linkRank_linkId ON links (
+    `link_rank` DESC,
+    `link_id`   DESC
+);

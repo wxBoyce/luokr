@@ -1,0 +1,57 @@
+{% extends "_base.html" %}
+
+{% block title %}新增链接 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'links') %}
+        </ul>
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/links">链接管理</a> <span class="divider">/</span></li>
+            <li class="active">新增链接</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_link_href">链接地址</label>
+                <div class="controls">
+                    <input type="url" id="input_link_href" name="link_href" value="" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_link_name">链接标题</label>
+                <div class="controls">
+                    <input type="text" id="input_link_name" name="link_name" value="" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_link_desp">链接描述</label>
+                <div class="controls">
+                    <input type="text" id="input_link_desp" name="link_desp" value="">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_link_rank">链接分值</label>
+                <div class="controls">
+                    <input type="text" id="input_link_rank" name="link_rank" value="{{ handler.get_runtime_conf('index_links_min_rank') }}" required>
+                    <span class="help-inline">分值大于等于 <a href="/admin/conf?conf_name=index_links_min_rank" target="_blank">{{ handler.get_runtime_conf('index_links_min_rank') }}</a> 的链接会在首页展示</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success">提交表单</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}
