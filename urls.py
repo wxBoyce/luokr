@@ -26,6 +26,8 @@ from handlers.admin.terms import AdminTermsHandler, AdminTermHandler, AdminTermC
 
 from handlers.admin.links import AdminLinksHandler, AdminLinkHandler, AdminLinkCreateHandler, AdminLinkDeleteHandler
 
+from handlers.admin.posts import AdminPostsHandler, AdminPostHiddenHandler, AdminPostCreateHandler
+
 
 urls = {
     (r'/', TestHandler),
@@ -65,4 +67,8 @@ urls = {
     (r'/admin/link', AdminLinkHandler),
     (r'/admin/link/create', AdminLinkCreateHandler),
     (r'/admin/link/create', AdminLinkDeleteHandler),
+
+    (r'/admin/posts', AdminPostsHandler),
+    (r'/admin/post/hidden', AdminPostHiddenHandler),
+    (r'/admin/post/create', AdminPostCreateHandler),
 }

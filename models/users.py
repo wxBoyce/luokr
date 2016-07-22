@@ -35,3 +35,6 @@ class Users(Base):
                              "user_sign, user_logo, user_meta, user_ctms, user_utms, user_atms) values('%s', '%s', '%s',"
                              " '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % tuple(user_info))
 
+    def get_posts_user(self, users):
+        return self.g_mysql.execute("select * from users where user_id in (%s)" % users)
+

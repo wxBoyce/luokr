@@ -1,0 +1,164 @@
+{% extends "_base.html" %}
+
+{% block title %}编辑文章 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block head_css %}
+<style>
+    .form-horizontal .control-label {
+        float: left;
+        width: 64px;
+    }
+    .form-horizontal .controls {
+        margin-left: 80px;
+    }
+
+    form .label {
+        cursor: pointer;
+    }
+</style>
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'posts') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/posts">文章管理</a> <span class="divider">/</span></li>
+            <li class="active">编辑文章</li>
+        </ul>
+
+        <div class="btn-group pull-right" style="margin-top: 4px; margin-bottom: 10px;">
+            {% if mode == 'text' %}
+            <a class="btn" href="/admin/post?post_id={{ post['post_id'] }}" onclick="return confirm('确认切换至富文本编辑模式吗？尚未保存的内容会被丢弃');">切换至富文本编辑模式</a>
+            {% else %}
+            <a class="btn" href="/admin/post?mode=text&post_id={{ post['post_id'] }}" onclick="return confirm('确认切换至纯文本编辑模式吗？尚未保存的内容会被丢弃');">切换至纯文本编辑模式</a>
+            {% end %}
+        </div>
+
+        <form id="form-post" class="form-horizontal request-ajax-form" method="post">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_post_title">文章标题</label>
+                <div class="controls">
+                    <input class="input-xlarge" type="text" id="input_post_title" name="post_title" value="{{ post['post_title'] }}" required>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_term_list">文章标签</label>
+                <div class="controls">
+                    <input class="input-xlarge" type="text" id="input_term_list" name="term_list" value="{% if post['post_id'] in ptids %}{% for term in ptids[post['post_id']] %}{{ ptags[term['term_id']]['term_name']}} {% end %}{% end %}">
+                    {% for term in terms %}
+                    <span class="inline-help label label-success" alt="{{ term['term_name'] }}">{{ term['term_name'] }}</span>&nbsp;
+                    {% end %}
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_descp">文章描述</label>
+                <div class="controls">
+                    <textarea id="input_post_descp" name="post_descp" class="input-block-level" style="height:auto" rows="3">{{ post['post_descp'] }}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_summary">文章摘要</label>
+                <div class="controls">
+                    <textarea class="input-block-level{% if not mode %} ckeditor{% end %}" style="height:auto" rows="5" id="input_post_summary" name="post_summary" required>{{ post['post_summary'] }}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_content">文章正文</label>
+                <div class="controls">
+                    <textarea class="input-block-level{% if not mode %} ckeditor{% end %}" style="height:auto" rows="9" id="input_post_content" name="post_content" required>{{ post['post_content'] }}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_source">文章来源</label>
+                <div class="controls controls-row">
+                    <textarea id="input_post_source" name="post_source" class="input-block-level" placeholder="来源地址">{% raw post['post_source'] %}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_author">文章作者</label>
+                <div class="controls controls-row">
+                    <input type="text" id="input_post_author" name="post_author" value="{{ post['post_author'] }}">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_rank">文章分值</label>
+                <div class="controls">
+                    <input style="width:56px" type="text" id="input_post_rank" name="post_rank" value="{{ post['post_rank']-post['post_plus']+post['post_mins'] }}" required><input style="width:56px;margin-left:3px" type="text" value="+{{ post['post_plus'] }}" readonly><input style="width:56px;margin-left:3px" type="text" value="-{{ post['post_mins'] }}" readonly>
+                    <span class="help-inline">分值大于等于 <a href="/admin/conf?conf_name=index_posts_top_rank" target="_blank">{{ handler.get_runtime_conf('index_posts_top_rank') }}</a> 的文章会置顶推荐</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="input_post_ptms">发布时间</label>
+                <div class="controls">
+                    <input type="text" id="input_post_ptms" name="post_ptms" value="{{ handler.timer().strftime('%Y-%m-%d %H:%M:%S', handler.timer().localtime(post['post_ptms'])) }}" placeholder="1970-01-01 00:00:00" required>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input type="checkbox" name="post_stat" value="1"{% if post['post_stat'] %} checked="checked"{% end %}> 公开文章
+                    </label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-danger">提交更新</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}
+
+{% block foot_js  %}
+{% if not mode %}
+<script type="text/javascript" src="{{ handler.asset('cke/ckeditor.js') }}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('input_post_content', {
+        height: 270,
+        filebrowserImageUploadUrl: '/admin/file/upload'
+    });
+
+    CKEDITOR.replace('input_post_summary', {
+        // toolbarGroups: [
+        //     { name: 'mode'},
+        //     { name: 'pbckcode'},
+        //     { name: 'doctools'},
+        //     { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+        //     { name: 'about' }
+        // ],
+        height: 150,
+        filebrowserImageUploadUrl: '/admin/file/upload'
+    });
+</script>
+{% end %}
+
+<script type="text/javascript">
+    $('#form-post').find('.label').on('click', function(){
+        var val = $('#input_term_list').val();
+        val = val == '' ? $(this).attr('alt') : val + ' ' + $(this).attr('alt');
+
+        $('#input_term_list').val(val);
+    });
+</script>
+{% end %}

@@ -21,3 +21,19 @@ class Utils(object):
             r'(?:/[^"\'<>\s]*)?'  # optional segs
             r')', re.IGNORECASE)
         return exp.sub(r'<a href="\1"' + opt + r'>\1</a>', val)
+
+    @staticmethod
+    def array_keyto(ary, key):
+        ret = {}
+        for val in ary:
+            ret[val[key]] = val
+        return ret
+
+    @staticmethod
+    def array_group(ary, key):
+        ret = {}
+        for val in ary:
+            if val[key] not in ret:
+                ret[val[key]] = []
+            ret[val[key]].append(val)
+        return ret
