@@ -16,6 +16,7 @@ from models.posts import Posts
 
 from models.admin.admin import Admin
 from models.admin.confs import Confs
+from models.admin.terms import Terms
 
 from utils.util import Utils
 from utils.cache import Cache
@@ -41,6 +42,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.posts_ins = Posts()
         self.admin_ins = Admin()
         self.confs_ins = Confs()
+        self.terms_ins = Terms()
 
     # 重写get_current_user, 主要实现当前登陆用户获取
     def get_current_user(self):

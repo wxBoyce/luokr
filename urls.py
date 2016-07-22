@@ -22,6 +22,8 @@ from handlers.admin.users import AdminUsersHandler, AdminUserHandler, AdminUserC
 
 from handlers.admin.files import AdminFilesHandler, AdminFileHandler, AdminFileUploadHandler
 
+from handlers.admin.terms import AdminTermsHandler, AdminTermHandler, AdminTermCreateHandler
+
 
 urls = {
     (r'/', TestHandler),
@@ -52,4 +54,8 @@ urls = {
     (r'/admin/files', AdminFilesHandler),
     (r'/admin/file', AdminFileHandler),
     (r'/admin/file/upload', AdminFileUploadHandler),
+
+    (r'/admin/terms', AdminTermsHandler),
+    (r'/admin/term', AdminTermHandler),
+    (r'/admin/term/create', AdminTermCreateHandler),
 }

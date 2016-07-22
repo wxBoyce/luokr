@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+
+{% block title %}新增标签 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'terms') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/terms">标签管理</a> <span class="divider">/</span></li>
+            <li class="active">新增标签</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_term_name">标签名称</label>
+                <div class="controls">
+                    <input type="text" id="input_term_name" name="term_name" value="" required>
+                    <span class="help-inline">请勿使用空格</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success">提交表单</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

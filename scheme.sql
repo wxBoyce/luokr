@@ -186,3 +186,12 @@ CREATE TABLE confs(
      `conf_vals` TEXT,
      `conf_ctms` INT(10)
 )DEFAULT CHARSET = UTF8;
+
+
+--Table: terms
+CREATE TABLE terms(
+     `term_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     `term_name` VARCHAR(64) NOT NULL UNIQUE,
+     `term_refc` INT(10),
+     `term_ctms` INT(10)
+)DEFAULT CHARSET = UTF8;

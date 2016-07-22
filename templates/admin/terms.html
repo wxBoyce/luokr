@@ -1,0 +1,55 @@
+{% extends "_base.html" %}
+
+{% block title %}标签管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'terms') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">标签管理</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 60px">#</th>
+                    <th style="width: 120px">标签名称</th>
+                    <th style="width: 140px">创建时间</th>
+                    <th style="width: 80px">引用次数</th>
+                    <th style="width: 80px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if terms %}
+                {% for term in terms %}
+                <tr>
+                    <td>{{ term['term_id'] }}</td>
+                    <td>{{ term['term_name'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M', handler.timer().localtime(term['term_ctms'])) }}</td>
+                    <td>{{ term['term_refc'] }}</td>
+                    <td class="actor-block">
+                        <a href="/admin/term?term_id={{ term['term_id'] }}">编辑</a>
+                    </td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}
