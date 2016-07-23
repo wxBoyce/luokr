@@ -1,0 +1,61 @@
+{% extends "_base.html" %}
+
+{% block title %}评论管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'talks') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">评论管理</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 60px">#</th>
+                    <th style="width: 60px">文章ID</th>
+                    <th style="width: 80px">评论作者</th>
+                    <th>评论内容</th>
+                    <th style="width: 80px">评论分值</th>
+                    <th style="width: 140px">评论时间</th>
+                    <th style="width: 120px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if talks %}
+                {% for talk in talks %}
+                <tr>
+                    <td>{{ talk['talk_id'] }}</td>
+                    <td>{{ talk['post_id'] }}</td>
+                    <td>{{ talk['user_name'] }}</td>
+                    <td>{{ talk['talk_text'] }}</td>
+                    <td>{{ talk['talk_rank'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M', handler.timer().localtime(talk['talk_ctms'])) }}</td>
+                    <td class="actor-block">
+                        <a href="/p/{{ talk['post_id'] }}#talks" target="_blank">查看</a>
+                        <a href="/admin/talk?talk_id={{ talk['talk_id'] }}">编辑</a>
+                        <a href="javascript:;" onclick="L.method.confirm() && L.method.operate('post', '/admin/talk/delete?talk_id={{ talk['talk_id'] }}&talk_ctms={{ talk['talk_ctms'] }}', '{{ handler.param_xsrfs() }}')">删除</a>
+                    </td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}

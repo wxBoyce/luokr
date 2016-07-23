@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+
+{% block title %}编辑评论 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'talks') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li><a href="/admin/talks">评论管理</a> <span class="divider">/</span></li>
+            <li class="active">编辑评论</li>
+        </ul>
+
+        <form class="form-horizontal request-ajax-form" method="post">
+            {% raw xsrf_form_html() %}
+            <div class="control-group">
+                <label class="control-label" for="input_user_name">评论用户</label>
+                <div class="controls">
+                    <input type="text" id="input_user_name" name="user_name" value="{{ talk['user_name'] }}" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_user_mail">用户邮箱</label>
+                <div class="controls">
+                    <input type="text" id="input_user_mail" name="user_mail" value="{{ talk['user_mail'] }}" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_talk_text">评论内容</label>
+                <div class="controls">
+                    <textarea id="input_talk_text" name="talk_text" rows="10" class="span6" style="height:auto">{{ talk['talk_text'] }}</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input_talk_rank">评论分值</label>
+                <div class="controls">
+                    <input style="width:56px" type="text" id="input_talk_rank" name="talk_rank" value="{{ talk['talk_rank']-talk['talk_plus']+talk['talk_mins'] }}" required><input style="width:56px;margin-left:3px" type="text" value="+{{ talk['talk_plus'] }}" readonly><input style="width:56px;margin-left:3px" type="text" value="-{{ talk['talk_mins'] }}" readonly>
+                    <span class="help-inline">分值大于等于 <a href="/admin/conf?conf_name=posts_talks_min_rank" target="_blank">{{ handler.get_runtime_conf('posts_talks_min_rank') }}</a> 的评论会随文章展示</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-danger">提交更新</button>
+                    <button type="reset" class="btn">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}
