@@ -30,7 +30,9 @@ from handlers.admin.posts import AdminPostsHandler, AdminPostHiddenHandler, Admi
 
 from handlers.admin.talks import AdminTalksHandler, AdminTalkHandler, AdminTalkDeleteHandler
 
-from handlers.admin.email import AdminMailsHandler
+from handlers.admin.email import AdminMailsHandler, AdminMailAccessHandler, AdminMailDeleteHandler
+
+from handlers.error import ErrorHandler
 
 
 urls = {
@@ -81,6 +83,10 @@ urls = {
     (r'/admin/talk/delete', AdminTalkDeleteHandler),
 
     (r'/admin/mails', AdminMailsHandler),
+    (r'/admin/mail/access', AdminMailAccessHandler),
+    (r'/admin/mail/delete', AdminMailDeleteHandler),
+
+    (r'.*', ErrorHandler),
 
 
 }
