@@ -28,3 +28,6 @@ class Links(Base):
     def get_links_by_rank(self, link_rank):
         return self.g_mysql.query("select * from links where link_rank>=%s order by link_rank desc, "
                                   "link_id desc limit 99", link_rank)
+
+    def get_links(self):
+        return self.g_mysql.query("select * from links where link_rank>0 order by link_rank desc, link_id desc")

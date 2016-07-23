@@ -16,3 +16,7 @@ class Email(Base):
 
     def delete_mail_by_id(self, mail_id, mail_utms):
         self.g_mysql.execute("delete from mails where mail_id=%s and mail_utms=%s", mail_id, mail_utms)
+
+    def insert_email_into(self, email_info):
+        self.g_mysql.execute("insert into mails (user_ip, user_name, user_mail, mail_text, mail_ctms, mail_utms) "
+                             "values ('%s', '%s', '%s', '%s', '%s', '%s')", tuple(email_info))

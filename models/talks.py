@@ -23,3 +23,11 @@ class Talks(Base):
 
     def get_new_talks(self, talk_rank):
         return self.g_mysql.query("select * from talks where talk_rank>=%s order by talk_id desc limit 9", talk_rank)
+
+    def insert_info_to_talks(self, talk_info):
+        self.g_mysql.execute("insert into talks (post_id, user_ip, user_id, user_name, user_mail, talk_text, talk_rank,"
+                             "talk_ctms, talk_utms) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % tuple(talk_info))
+
+    def get_talks_by_post_id(self, post_id, talk_rank, limit, offset):
+        return self.g_mysql.query("select talk_id, post_id, user_id, user_name, talk_text, talk_ctms from talks "
+                                  "where post_id=%s and talk_rank>=%s order by talk_id asc limit %s offset %s'", post_id, talk_rank, limit, offset)

@@ -33,6 +33,13 @@ from handlers.admin.talks import AdminTalksHandler, AdminTalkHandler, AdminTalkD
 from handlers.admin.email import AdminMailsHandler, AdminMailAccessHandler, AdminMailDeleteHandler
 
 from handlers.error import ErrorHandler
+from handlers.about import AboutHandler
+from handlers.apply import ApplyHandler
+from handlers.email import EmailHandler
+from handlers.links import LinksHandler
+from handlers.score import ScoreHandler
+from handlers.voice import VoiceHandler
+from handlers.talks import TalksHandler
 
 
 urls = {
@@ -88,6 +95,14 @@ urls = {
     (r'/admin/mails', AdminMailsHandler),
     (r'/admin/mail/access', AdminMailAccessHandler),
     (r'/admin/mail/delete', AdminMailDeleteHandler),
+
+    (r'/about', AboutHandler),
+    (r'/apply', ApplyHandler),
+    (r'/email', EmailHandler),
+    (r'/links', LinksHandler),
+    (r'/score', ScoreHandler),
+    (r'/voice', VoiceHandler),
+    (r'/talks(\.json)', TalksHandler),
 
     # (r'.*', ErrorHandler),
 
