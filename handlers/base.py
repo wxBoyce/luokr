@@ -13,6 +13,8 @@ import tornado.httputil
 from models.users import Users
 from models.files import Files
 from models.posts import Posts
+from models.talks import Talks
+from models.email import Email
 
 from models.admin.admin import Admin
 from models.admin.confs import Confs
@@ -45,6 +47,8 @@ class BaseHandler(tornado.web.RequestHandler):
         self.confs_ins = Confs()
         self.terms_ins = Terms()
         self.links_ins = Links()
+        self.talks_ins = Talks()
+        self.email_ins = Email()
 
     # 重写get_current_user, 主要实现当前登陆用户获取
     def get_current_user(self):

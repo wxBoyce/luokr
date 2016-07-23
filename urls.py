@@ -28,6 +28,10 @@ from handlers.admin.links import AdminLinksHandler, AdminLinkHandler, AdminLinkC
 
 from handlers.admin.posts import AdminPostsHandler, AdminPostHiddenHandler, AdminPostCreateHandler
 
+from handlers.admin.talks import AdminTalksHandler, AdminTalkHandler, AdminTalkDeleteHandler
+
+from handlers.admin.email import AdminMailsHandler
+
 
 urls = {
     (r'/', TestHandler),
@@ -71,4 +75,12 @@ urls = {
     (r'/admin/posts', AdminPostsHandler),
     (r'/admin/post/hidden', AdminPostHiddenHandler),
     (r'/admin/post/create', AdminPostCreateHandler),
+
+    (r'/admin/talks', AdminTalksHandler),
+    (r'/admin/talk', AdminTalkHandler),
+    (r'/admin/talk/delete', AdminTalkDeleteHandler),
+
+    (r'/admin/mails', AdminMailsHandler),
+
+
 }

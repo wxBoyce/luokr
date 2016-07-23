@@ -1,0 +1,62 @@
+{% extends "_base.html" %}
+
+{% block title %}留言管理 - 控制面板 - {{ handler.get_runtime_conf('title') }}{% end %}
+
+{% block navs %}
+{% module Template("admin/_navs.html", menu='admin') %}
+{% end %}
+
+{% block main %}
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            {% module Template("admin/_tabs.html", menu = 'mails') %}
+        </ul>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin"><i class="icon-th"></i> 控制面板</a> <span class="divider">/</span></li>
+            <li class="active">留言管理</li>
+        </ul>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 60px">#</th>
+                    <th style="width: 80px">用户IP</th>
+                    <th style="width: 80px">用户名称</th>
+                    <th style="width: 80px">用户邮箱</th>
+                    <th>留言内容</th>
+                    <th style="width: 140px">留言时间</th>
+                    <th style="width: 100px">留言状态</th>
+                    <th style="width: 80px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if mails %}
+                {% for mail in mails %}
+                <tr>
+                    <td>{{ mail['mail_id'] }}</td>
+                    <td>{{ mail['user_ip'] }}</td>
+                    <td>{{ mail['user_name'] }}</td>
+                    <td>{{ mail['user_mail'] }}</td>
+                    <td>{{ mail['mail_text'] }}</td>
+                    <td>{{ handler.timer().strftime('%Y-%m-%d %H:%M', handler.timer().localtime(mail['mail_ctms'])) }}</td>
+                    <td>{% if mail['mail_stat'] %}<span style="color:grey">已处理</span>{% else %}<span>未处理</span>{% end %}</td>
+                    <td class="actor-block">
+                        <a href="javascript:;" onclick="L.method.operate('post', '/admin/mail/access?mail_id={{ mail['mail_id'] }}', '{{ handler.param_xsrfs() }}')">查收</a>
+                        <a href="javascript:;" onclick="L.method.confirm() && L.method.operate('post', '/admin/mail/delete?mail_id={{ mail['mail_id'] }}&mail_utms={{ mail['mail_utms'] }}', '{{ handler.param_xsrfs() }}')">删除</a>
+                    </td>
+                </tr>
+                {% end %}
+                {% else %}
+                <tr>
+                    <td colspan="8" style="text-align:center">没有发现内容</td>
+                </tr>
+                {% end %}
+            </tbody>
+        </table>
+
+        {% module Template("admin/_page.html", pager=pager) %}
+    </div>
+</div>
+{% end %}
