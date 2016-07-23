@@ -20,3 +20,6 @@ class Talks(Base):
 
     def delete_talk_by_id(self, talk_id, talk_ctms):
         self.g_mysql.execute("delete from talks where talk_id=%s and talk_ctms=%s", talk_id, talk_ctms)
+
+    def get_new_talks(self, talk_rank):
+        return self.g_mysql.query("select * from talks where talk_rank>=%s order by talk_id desc limit 9", talk_rank)

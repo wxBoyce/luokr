@@ -24,3 +24,7 @@ class Links(Base):
 
     def delete_link_by_id(self, link_id, link_utms):
         self.g_mysql.execute("delete from links where link_id=%s and link_utms=%s", link_id, link_utms)
+
+    def get_links_by_rank(self, link_rank):
+        return self.g_mysql.query("select * from links where link_rank>=%s order by link_rank desc, "
+                                  "link_id desc limit 99", link_rank)

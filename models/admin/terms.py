@@ -25,3 +25,10 @@ class Terms(Base):
 
     def get_terms_by_ids(self, ids):
         return self.g_mysql.query("select * from terms where term_id in (%s)" % ids)
+
+    def get_term_info_by_name(self, term_name):
+        return self.g_mysql.query("select * from terms where term_name = %s limit 1", term_name)
+
+    def get_terms_to_post(self):
+        return self.g_mysql.query("select * from terms where term_refc>0 order by term_refc desc, term_id desc limit 3")
+

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-from handlers.test import TestHandler
+from handlers.posts import PostsHandler, PostHandler
 
 from handlers.login import LoginHandler
 from handlers.leave import LeaveHandler
@@ -36,7 +36,10 @@ from handlers.error import ErrorHandler
 
 
 urls = {
-    (r'/', TestHandler),
+    (r'/', PostsHandler),
+    (r'/s', PostsHandler),
+    (r'/t/([^/]+)', PostHandler),
+    (r'/p/([1-9][0-9]*)', PostHandler),
 
     (r'/check(\.jpeg)', CheckHandler),
     (r'/login', LoginHandler),
@@ -86,7 +89,6 @@ urls = {
     (r'/admin/mail/access', AdminMailAccessHandler),
     (r'/admin/mail/delete', AdminMailDeleteHandler),
 
-    (r'.*', ErrorHandler),
-
+    # (r'.*', ErrorHandler),
 
 }
